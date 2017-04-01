@@ -89,10 +89,10 @@ errCode=calllib('epanetnext','ENclose');%πÿ±’toolkitœµÕ≥
 unloadlibrary('epanetnext');
 
 plot(pressureValue(1,:),'g');
-% hold on;
-% plot(pressureValue(2,:),'b');
-% hold on;
-% plot(pressureValue(3,:));
-% hold on;
-% plot(pressureValue(4,:),'r');
+hold on;
+plot(pressureValue(2,:),'b');
+hold on;
+plot(pressureValue(3,:));
+hold on;
+plot(pressureValue(4,:),'r');
 
