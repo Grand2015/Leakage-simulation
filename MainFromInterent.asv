@@ -61,6 +61,7 @@ errCode=calllib('epanetnext','ENsetlinkvalue',str2num(valveID),EN_STATUS,OPEN);%
 %测试代码结束
 %% 
 while(sampleNum && ~errCode)
+    
    [errCode,flow]=calllib('epanetnext','ENgetlinkvalue',str2num(valveID),EN_FLOW,flow);%检测管段中的流量
    errCode=calllib('epanetnext','ENrunH',processTime);%执行processTime时刻的水力模拟
    [errCode,flow]=calllib('epanetnext','ENgetlinkvalue',str2num(valveID),EN_FLOW,flow);%检测管段中的流量

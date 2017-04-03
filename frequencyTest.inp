@@ -26,7 +26,7 @@
 
 [VALVES]
 ;ID              	Node1           	Node2           	Diameter    	Type	Setting     	MinorLoss   
- 4               	4               	5               	300         	FCV 	0           	0           	;
+ 4               	4               	5               	300         	FCV 	50          	0           	;
 
 [TAGS]
 
@@ -43,7 +43,7 @@
 ;ID              	X-Value     	Y-Value
 
 [CONTROLS]
-;设置阀门在1min时间按照
+;设置阀门在1min时间按照q=-50t+50变化
 
 [RULES]
 
