@@ -6,7 +6,9 @@
  2               	0           	0           	                	;
  3               	0           	0           	                	;
  4               	0           	0           	                	;
- 5               	0           	50          	                	;
+ 5               	0           	0           	                	;
+ 6               	0           	50          	                	;
+ 7               	0           	50          	                	;
 
 [RESERVOIRS]
 ;ID              	Head        	Pattern         
@@ -18,15 +20,17 @@
 [PIPES]
 ;ID              	Node1           	Node2           	Length      	Diameter    	Roughness   	MinorLoss   	Status
  1               	1               	2               	30          	300         	100         	0           	Open  	;
- 2               	2               	3               	10          	300         	100         	0           	Open  	;
- 3               	3               	4               	20          	300         	100         	0           	Open  	;
+ 2               	2               	3               	20          	300         	100         	0           	Open  	;
+ 3               	3               	4               	10          	300         	100         	0           	Open  	;
+ 5               	5               	6               	20          	300         	100         	0           	Open  	;
+ 6               	6               	7               	10          	300         	100         	0           	Open  	;
 
 [PUMPS]
 ;ID              	Node1           	Node2           	Parameters
 
 [VALVES]
 ;ID              	Node1           	Node2           	Diameter    	Type	Setting     	MinorLoss   
- 4               	4               	5               	300         	FCV 	50          	0           	;
+ 4               	4               	5               	300         	FCV 	300         	0           	;
 
 [TAGS]
 
@@ -43,7 +47,6 @@
 ;ID              	X-Value     	Y-Value
 
 [CONTROLS]
-;设置阀门在1min时间按照q=-50t+50变化
 
 [RULES]
 
@@ -54,7 +57,7 @@
 
 [EMITTERS]
 ;Junction        	Coefficient
- 3               	0.05
+ 3               	0.5
 
 [QUALITY]
 ;Node            	InitQual
@@ -95,7 +98,7 @@
  Page               	0
 
 [OPTIONS]
- Units              	LPS
+ Units              	GPM
  Headloss           	H-W
  Specific Gravity   	1
  Viscosity          	1
@@ -114,11 +117,13 @@
 
 [COORDINATES]
 ;Node            	X-Coord         	Y-Coord
- 2               	1255.92         	6427.73         
- 3               	4496.45         	6427.73         
- 4               	7268.96         	6427.73         
- 5               	9312.80         	6427.73         
- 1               	-408.77         	7428.91         
+ 2               	-1340.28        	7152.78         
+ 3               	687.50          	7083.33         
+ 4               	2993.06         	7013.89         
+ 5               	5062.50         	6972.22         
+ 6               	6798.61         	6944.44         
+ 7               	9465.28         	6847.22         
+ 1               	-2826.39        	7375.00         
 
 [VERTICES]
 ;Link            	X-Coord         	Y-Coord
