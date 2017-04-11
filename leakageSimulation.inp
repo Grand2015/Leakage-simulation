@@ -1,5 +1,5 @@
 [TITLE]
-
+leakageSimulation
 
 [JUNCTIONS]
 ;ID              	Elev        	Demand      	Pattern         
@@ -7,8 +7,8 @@
  3               	0           	0           	                	;
  4               	0           	0           	                	;
  5               	0           	0           	                	;
- 6               	0           	5           	                	;
- 7               	0           	5           	                	;
+ 6               	0           	30          	                	;
+ 7               	0           	50          	                	;
 
 [RESERVOIRS]
 ;ID              	Head        	Pattern         
@@ -30,7 +30,7 @@
 
 [VALVES]
 ;ID              	Node1           	Node2           	Diameter    	Type	Setting     	MinorLoss   
- 4               	4               	5               	300         	FCV 	200         	0           	;
+ 4               	4               	5               	300         	FCV 	100         	0           	;
 
 [TAGS]
 
@@ -39,25 +39,30 @@
 
 [STATUS]
 ;ID              	Status/Setting
- 4               	无
 
 [PATTERNS]
 ;ID              	Multipliers
-;
- 1               	1           	2           	3           	5           	6           	2           
- 1               	14          	2           	5           
 
 [CURVES]
 ;ID              	X-Value     	Y-Value
 
 [CONTROLS]
-;阀门控制
-;20ms时间，4ms一个间隔
-;变化曲线为q=-50t+50
-;
-;
+;阀门初始设置为100LPS
+LINK 4 100 AT TIME 0
+;13h阀门流量为60LPS
+LINK 4 60 AT TIME 13
+;14h阀门流量为40LPS
+LINK 4 40 AT TIME 14
+;15h阀门流量为20LPS
+LINK 4 20 AT TIME 15
+;16h阀门流量为0LPS
+LINK 4 0 AT TIME 16
 
 [RULES]
+RULE 1
+IF SYSTEM CLOCKTIME >= 5 PM
+AND SYSTEM CLOCKTIME < 12 PM
+THEN VALVE 4 SETTING IS 0 
 
 [ENERGY]
  Global Efficiency  	75
@@ -92,11 +97,11 @@
 
 [TIMES]
  Duration           	24
- Hydraulic Timestep 	0:01
- Quality Timestep   	0:01
- Pattern Timestep   	0:01
+ Hydraulic Timestep 	1:00
+ Quality Timestep   	0:05
+ Pattern Timestep   	1:00
  Pattern Start      	0:00
- Report Timestep    	0:01
+ Report Timestep    	1:00
  Report Start       	0:00
  Start ClockTime    	0 am
  Statistic          	None
@@ -112,7 +117,7 @@
  Specific Gravity   	1
  Viscosity          	1
  Trials             	40
- Accuracy           	0.1
+ Accuracy           	0.001
  CHECKFREQ          	2
  MAXCHECK           	10
  DAMPLIMIT          	0
@@ -131,8 +136,8 @@
  4               	2993.06         	7013.89         
  5               	5062.50         	6972.22         
  6               	6798.61         	6944.44         
- 7               	9465.28         	6847.22         
- 1               	-2826.39        	7375.00         
+ 7               	8169.43         	5391.00         
+ 1               	-2020.14        	8459.72         
 
 [VERTICES]
 ;Link            	X-Coord         	Y-Coord

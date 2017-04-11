@@ -1,4 +1,4 @@
-  Page 1                                    Wed Apr 05 23:19:57 2017
+  Page 1                                    Tue Apr 11 23:29:15 2017
 
   ******************************************************************
   *                           E P A N E T                          *
@@ -7,133 +7,77 @@
   *                         Version 2.00.12                        *
   ******************************************************************
   
-  Analysis begun Wed Apr 05 23:19:57 2017
+  Analysis begun Tue Apr 11 23:29:15 2017
 
   WARNING: Negative pressures at 0:00:00 hrs.
-  
-  WARNING: Negative pressures at 0:01:00 hrs.
-  
-  WARNING: Negative pressures at 0:02:00 hrs.
-  
-  WARNING: Negative pressures at 0:03:00 hrs.
-  
-  WARNING: Negative pressures at 0:04:00 hrs.
-  
-  WARNING: Negative pressures at 0:05:00 hrs.
-  
-  WARNING: Negative pressures at 0:06:00 hrs.
-  
-  WARNING: Negative pressures at 0:07:00 hrs.
-  
-  WARNING: Negative pressures at 0:08:00 hrs.
-  
-  WARNING: Negative pressures at 0:09:00 hrs.
-  
-  WARNING: Negative pressures at 0:10:00 hrs.
-  
-  WARNING: Negative pressures at 0:11:00 hrs.
-  
-  WARNING: Negative pressures at 0:12:00 hrs.
-  
-  WARNING: Negative pressures at 0:13:00 hrs.
-  
-  WARNING: Negative pressures at 0:14:00 hrs.
-  
-  WARNING: Negative pressures at 0:15:00 hrs.
-  
-  WARNING: Negative pressures at 0:16:00 hrs.
-  
-  WARNING: Negative pressures at 0:17:00 hrs.
-  
-  WARNING: Negative pressures at 0:18:00 hrs.
-  
-  WARNING: Negative pressures at 0:19:00 hrs.
-  
-  WARNING: Negative pressures at 0:20:00 hrs.
-  
-  WARNING: Negative pressures at 0:21:00 hrs.
-  
-  WARNING: Negative pressures at 0:22:00 hrs.
-  
-  WARNING: Negative pressures at 0:23:00 hrs.
-  
-  WARNING: Negative pressures at 0:24:00 hrs.
-  
-  WARNING: Negative pressures at 0:25:00 hrs.
-  
-  WARNING: Negative pressures at 0:26:00 hrs.
-  
-  WARNING: Negative pressures at 0:27:00 hrs.
-  
-  WARNING: Negative pressures at 0:28:00 hrs.
-  
-  WARNING: Negative pressures at 0:29:00 hrs.
-  
-  WARNING: Negative pressures at 0:30:00 hrs.
-  
-  WARNING: Negative pressures at 0:31:00 hrs.
-  
-  WARNING: Negative pressures at 0:32:00 hrs.
-  
-  WARNING: Negative pressures at 0:33:00 hrs.
-  
-  WARNING: Negative pressures at 0:34:00 hrs.
-  
-  WARNING: Negative pressures at 0:35:00 hrs.
-  
-  WARNING: Negative pressures at 0:36:00 hrs.
-  
-  WARNING: Negative pressures at 0:37:00 hrs.
-  
-  WARNING: Negative pressures at 0:38:00 hrs.
-  
-  WARNING: Negative pressures at 0:39:00 hrs.
-  
-  WARNING: Negative pressures at 0:40:00 hrs.
-  
-  WARNING: Negative pressures at 0:41:00 hrs.
-  
-  WARNING: Negative pressures at 0:42:00 hrs.
-  
-  WARNING: Negative pressures at 0:43:00 hrs.
-  
-  WARNING: Negative pressures at 0:44:00 hrs.
-  
-  WARNING: Negative pressures at 0:45:00 hrs.
-  
-  WARNING: Negative pressures at 0:46:00 hrs.
-  
-  WARNING: Negative pressures at 0:47:00 hrs.
-  
-  WARNING: Negative pressures at 0:48:00 hrs.
-  
-  WARNING: Negative pressures at 0:49:00 hrs.
-  
-  WARNING: Negative pressures at 0:50:00 hrs.
-  
-  WARNING: Negative pressures at 0:51:00 hrs.
-  
-  WARNING: Negative pressures at 0:52:00 hrs.
-  
-  WARNING: Negative pressures at 0:53:00 hrs.
-  
-  WARNING: Negative pressures at 0:54:00 hrs.
-  
-  WARNING: Negative pressures at 0:55:00 hrs.
-  
-  WARNING: Negative pressures at 0:56:00 hrs.
-  
-  WARNING: Negative pressures at 0:57:00 hrs.
-  
-  WARNING: Negative pressures at 0:58:00 hrs.
-  
-  WARNING: Negative pressures at 0:59:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 0:00:00 hrs.
   
   WARNING: Negative pressures at 1:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 1:00:00 hrs.
   
-  WARNING: Negative pressures at 1:01:00 hrs.
+  WARNING: Negative pressures at 2:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 2:00:00 hrs.
   
-  WARNING: Negative pressures at 1:02:00 hrs.
+  WARNING: Negative pressures at 3:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 3:00:00 hrs.
   
-  WARNING: Negative pressures at 1:03:00 hrs.
+  WARNING: Negative pressures at 4:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 4:00:00 hrs.
   
+  WARNING: Negative pressures at 5:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 5:00:00 hrs.
+  
+  WARNING: Negative pressures at 6:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 6:00:00 hrs.
+  
+  WARNING: Negative pressures at 7:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 7:00:00 hrs.
+  
+  WARNING: Negative pressures at 8:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 8:00:00 hrs.
+  
+  WARNING: Negative pressures at 9:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 9:00:00 hrs.
+  
+  WARNING: Negative pressures at 10:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 10:00:00 hrs.
+  
+  WARNING: Negative pressures at 11:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 11:00:00 hrs.
+  
+  WARNING: Negative pressures at 12:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 12:00:00 hrs.
+  
+  WARNING: Negative pressures at 13:00:00 hrs.
+  
+  WARNING: Negative pressures at 14:00:00 hrs.
+  
+  WARNING: Negative pressures at 15:00:00 hrs.
+  
+  WARNING: Negative pressures at 16:00:00 hrs.
+  
+  WARNING: Negative pressures at 17:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 17:00:00 hrs.
+  
+  WARNING: Negative pressures at 18:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 18:00:00 hrs.
+  
+  WARNING: Negative pressures at 19:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 19:00:00 hrs.
+  
+  WARNING: Negative pressures at 20:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 20:00:00 hrs.
+  
+  WARNING: Negative pressures at 21:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 21:00:00 hrs.
+  
+  WARNING: Negative pressures at 22:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 22:00:00 hrs.
+  
+  WARNING: Negative pressures at 23:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 23:00:00 hrs.
+  
+  WARNING: Negative pressures at 24:00:00 hrs.
+  WARNING: FCV 4 open but cannot deliver flow at 24:00:00 hrs.
+  
+  Analysis ended Tue Apr 11 23:29:15 2017

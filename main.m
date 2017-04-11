@@ -10,13 +10,15 @@ close all;
 %% 定义初始变量
 EN_NODECOUNT=0;CLOSED=0;
 EN_TANKCOUNT=1;EN_SAVEDATA=1;EN_LENGTH=1;OPEN=1;
-EN_LINKCOUNT=2;
+EN_LINKCOUNT=2;EN_TIMER=2;
 EN_INITSETTING=5;
 EN_FCV=6;
 EN_FLOW=8;
 EN_PRESSURE=11;EN_STATUS=11;
 EN_SETTING=12;
 pressure=0;flow=0;flowChange=0;
+divisor=12;%用于取余数的被除数
+controlTime=60;%控制动作的时间（单位：s）
 % position=[ ];
 nodeNum=0;%节点数目
 tankNum=0;%水箱数目
@@ -67,6 +69,7 @@ for i=1:linkNum
    if linkType==EN_FCV
        valveIndex=i;%获取阀门索引
        [errCode,valveID]=calllib('epanetnext','ENgetlinkid',i,valveID);%获取阀门ID
+       errCode=calllib('epanetnext','ENsetlinkvalue',i,EN_INITSETTING,100);%设置初始时所有管段都为开
 %        [errCode,from,to]=calllib('epanetnext','ENgetlinknodes',i,from,to);%获取管的起始位置，确定具体管段
    end
    errCode=calllib('epanetnext','ENsetlinkvalue',i,EN_INITSETTING,OPEN);%设置初始时所有管段都为开
@@ -98,7 +101,7 @@ errCode=calllib('epanetnext','ENinitH',0);%初始化，1是保存水力结果到水力文件
 j=1;
 while(tStep && ~errCode)
    [errCode,time]=calllib('epanetnext','ENrunH',time);%执行time时刻的水力模拟
-%    [errCode,flow]=calllib('epanetnext','ENgetlinkvalue',valveIndex,EN_FLOW,flow);%检测管段中的流量
+   errCode=calllib('epanetnext','ENsetlinkvalue',valveIndex,EN_SETTING,100);%检测阀门的实际状态%    [errCode,flow]=calllib('epanetnext','ENgetlinkvalue',valveIndex,EN_FLOW,flow);%检测管段中的流量
  %%测试代码
 %    linkType=0;]=calllib('epanetnext','ENgetlinktype',valveIndex,linkType);%获取管道类型，判断是否是阀门,6为FCV流量控制阀
 %    [errCode,status]=
@@ -106,12 +109,25 @@ while(tStep && ~errCode)
 %    status=0;
 %    [errCode,status]=calllib('epanetnext','ENgetlinkvalue',valveIndex,EN_SETTING,status);%检测阀门的实际状态
 %%测试代码结束
-    
+%     errCode=calllib('epanetnext','ENsetcontrol',1,EN_TIMER,valveIndex,100,0,controlTime);%设置阀门的初始状态流量设为100LPS
    for i=1:junctionNum
       [errCode,pressure]=calllib('epanetnext','ENgetnodevalue',i,EN_PRESSURE,pressure); 
       pressureValue(i,j)=pressure;
    end
    j=j+1;
+   
+%    %调用控制语句
+%    if j==14
+%        errCode=calllib('epanetnext','ENsetcontrol',rem(j,divisor),EN_TIMER,valveIndex,60,0,controlTime);
+%    elseif j==15
+%        errCode=calllib('epanetnext','ENsetcontrol',rem(j,divisor),EN_TIMER,valveIndex,40,0,controlTime);
+%    elseif j==16
+%        errCode=calllib('epanetnext','ENsetcontrol',rem(j,divisor),EN_TIMER,valveIndex,20,0,controlTime);
+%    elseif j==17
+%        errCode=calllib('epanetnext','ENsetcontrol',rem(j,divisor),EN_TIMER,valveIndex,0,0,controlTime);
+%    end
+   
+   
 %     [errCode,flow]=calllib('epanetnext','ENgetlinkvalue',valveIndex,EN_FLOW,flow);%检测管段中的流量
 %  %% 测试代码
 % %测试控制管段流量
