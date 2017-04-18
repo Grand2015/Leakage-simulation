@@ -1,9 +1,12 @@
 %% 单管漏损检测
-%3号节点扩散器系数0.5，漏损量5LPS
-%管段的粗糙系数为100
-%采样间隔0.004s，采样时间为2min
-%阀门的关闭时间0.17~0.25s之间（取0.2s）
-%阀门流量同时间的函数：q=-50t+50
+% 2号节点扩散器系数0.05，漏损量0.5LPS
+%管段的粗糙系数为100，管径DN600，管长100m
+
+%【待定】
+%%采样间隔0.004s，采样时间为2min
+%%阀门的关闭时间0.17~0.25s之间（取0.2s）
+%%阀门流量同时间的函数：q=-50t+50
+
 clc;
 clear all;
 close all;
@@ -39,8 +42,10 @@ linkID='';
 linkType=0;%管段类型
 valveID='';%阀门ID
 valveIndex=0;%阀门索引
-inputFile='leakageSimulation.inp';%EPANET输入文件
-outputFile='leakageSimulation.rpt';%输出文件
+% inputFile='leakageSimulation.inp';%EPANET输入文件
+% outputFile='leakageSimulation.rpt';%输出文件
+inputFile='PDA.inp';%EPANET输入文件
+outputFile='PDA.rpt';%输出文件
 %% 执行水力分析
 errCode=loadlibrary('epanetnext.dll','epanetnext.h');%用loadlibrary函数， 根据epanetnext.h中的函数定义，加载epanetnext.dll
 libfunctions epanetnext -full%查看epanetnext.dll支持的函数接口
@@ -150,7 +155,7 @@ errCode=calllib('epanetnext','ENcloseH');%关闭水力分析系统
 errCode=calllib('epanetnext','ENclose');%关闭toolkit系统
 unloadlibrary('epanetnext');
 
-plot(pressureValue(1,:),'g');
+% plot(pressureValue(1,:),'g');
 % hold on;
 % plot(pressureValue(2,:),'b');
 % hold on;
