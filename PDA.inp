@@ -1,5 +1,5 @@
 [TITLE]
-
+PDA
 
 [JUNCTIONS]
 ;ID              	Elev        	Demand      	Pattern         
@@ -54,8 +54,8 @@
 ;ID              	X-Value     	Y-Value
 
 [CONTROLS]
-;阀门初始设置为100LPS
-;LINK 3 100 AT TIME 0
+;阀门初始设置为80LPS
+;LINK 3 80 AT TIME 0
 ;13h阀门流量为60LPS
 LINK 3 60 AT TIME 13
 ;14h阀门流量为40LPS
@@ -65,7 +65,9 @@ LINK 3 20 AT TIME 15
 ;16h阀门流量为0LPS
 LINK 3 0 AT TIME 16
 
+
 [RULES]
+
 
 [ENERGY]
  Global Efficiency  	75
@@ -103,15 +105,15 @@ LINK 3 0 AT TIME 16
 ;Tank            	Model
 
 [TIMES]
- Duration           	24
- Hydraulic Timestep 	1:00
- Quality Timestep   	0:05
- Pattern Timestep   	1:00
- Pattern Start      	0:00
- Report Timestep    	1:00
- Report Start       	0:00
+ Duration           	24:00 
+ Hydraulic Timestep 	1:00 
+ Quality Timestep   	0:05 
+ Pattern Timestep   	1:00 
+ Pattern Start      	0:00 
+ Report Timestep    	1:00 
+ Report Start       	0:00 
  Start ClockTime    	0 am
- Statistic          	None
+ Statistic          	NONE
 
 [REPORT]
  Status             	No
