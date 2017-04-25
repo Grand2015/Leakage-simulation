@@ -1,4 +1,4 @@
-%% 单管漏损检测
+%% 单管漏损检测（2017.4.25）
 % 2号节点扩散器系数0.05，漏损量0.5LPS
 %管段的粗糙系数为100，管径DN600，管长100m
 
@@ -44,8 +44,8 @@ valveID='';%阀门ID
 valveIndex=0;%阀门索引
 % inputFile='leakageSimulation.inp';%EPANET输入文件
 % outputFile='leakageSimulation.rpt';%输出文件
-inputFile='PDA.inp';%EPANET输入文件
-outputFile='PDA.rpt';%输出文件
+inputFile='PDA_min.inp';%EPANET输入文件
+outputFile='PDA_min.rpt';%输出文件
 %% 执行水力分析
 errCode=loadlibrary('epanetnext.dll','epanetnext.h');%用loadlibrary函数， 根据epanetnext.h中的函数定义，加载epanetnext.dll
 libfunctions epanetnext -full%查看epanetnext.dll支持的函数接口
@@ -62,13 +62,8 @@ end
 [errCode,nodeNum]=calllib('epanetnext','ENgetcount',EN_NODECOUNT,nodeNum);%获取节点数量
 [errCode,tankNum]=calllib('epanetnext','ENgetcount',EN_TANKCOUNT,tankNum);%获取水箱数量
 junctionNum=nodeNum-tankNum;%连接点数目等于总节点数目减去水箱数目
-[errCode,linkNum]=calllib('epanetnext','ENgetcount',EN_LINKCOUNT,linkNum);%获取管段数量
-%% 测试代码：通过索引获得ID，通过ID获得索引
-% name='5';
-% [errCode,name,linkIndex]=calllib('epanetnext','ENgetlinkindex',name,linkIndex);
-% [errCode,linkID]=calllib('epanetnext','ENgetnodeid',3,linkID);
-%测试代码结束
-%% 
+[errCode,linkNum]=calllib('epanetnext','ENgetcount',EN_LINKCOUNT,linkNum);%获取管段数量（包含阀门）
+%% 锁定阀门
 for i=1:linkNum
    [errcode,linkType]=calllib('epanetnext','ENgetlinktype',i,linkType);%检查管段类型，锁定阀门
    if linkType==EN_FCV
@@ -76,8 +71,9 @@ for i=1:linkNum
        [errCode,valveID]=calllib('epanetnext','ENgetlinkid',i,valveID);%获取阀门ID
        errCode=calllib('epanetnext','ENsetlinkvalue',i,EN_INITSETTING,100);%设置初始时所有管段都为开
 %        [errCode,from,to]=calllib('epanetnext','ENgetlinknodes',i,from,to);%获取管的起始位置，确定具体管段
+   else
+       errCode=calllib('epanetnext','ENsetlinkvalue',i,EN_INITSETTING,OPEN);%设置初始时所有管段都为开
    end
-   errCode=calllib('epanetnext','ENsetlinkvalue',i,EN_INITSETTING,OPEN);%设置初始时所有管段都为开
 %    [errCode,linkID]=calllib('epanetnext','ENgetlinkid',i,linkID);  %获得管道id
 %    linkNameStr=num2str(linkID);
 %    [errcode,linkNameStr,linkIndex]=calllib('epanetnext','ENgetlinkindex',linkNameStr,linkIndex);  %获得管道索引
