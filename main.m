@@ -8,12 +8,13 @@
 %%阀门流量同时间的函数：q=-50t+50
 
 clc;
-clear all;
+clear;
 close all;
 %% 定义初始变量
 EN_NODECOUNT=0;CLOSED=0;
 EN_TANKCOUNT=1;EN_SAVEDATA=1;EN_LENGTH=1;OPEN=1;
 EN_LINKCOUNT=2;EN_TIMER=2;
+EN_INITSTATUS=4;
 EN_INITSETTING=5;
 EN_FCV=6;
 EN_FLOW=8;
@@ -23,9 +24,7 @@ pressure=0;flow=0;flowChange=0;
 divisor=12;%用于取余数的被除数
 controlTime=60;%控制动作的时间（单位：s）
 % position=[ ];
-nodeNum=0;%节点数目
-tankNum=0;%水箱数目
-linkNum=0;%管段数目
+nodeNum=0;tankNum=0;linkNum=0;
 % length=0;
 time=0;%初始化工况时间（单位：s）
 % processTime=0;
@@ -39,13 +38,14 @@ sampleNumConst=sampleNum;
 % linkIndex=0;
 status=0;
 linkID='';
-linkType=0;%管段类型
-valveID='';%阀门ID
-valveIndex=0;%阀门索引
-% inputFile='leakageSimulation.inp';%EPANET输入文件
-% outputFile='leakageSimulation.rpt';%输出文件
-inputFile='PDA_min.inp';%EPANET输入文件
-outputFile='PDA_min.rpt';%输出文件
+linkType=0;
+valveID='';
+valveIndex=0;
+valveInitFlow=80;
+% inputFile='leakageSimulation.inp';
+% outputFile='leakageSimulation.rpt';
+inputFile='PDA_min.inp';
+outputFile='PDA_min.rpt';
 %% 执行水力分析
 errCode=loadlibrary('epanetnext.dll','epanetnext.h');%用loadlibrary函数， 根据epanetnext.h中的函数定义，加载epanetnext.dll
 libfunctions epanetnext -full%查看epanetnext.dll支持的函数接口
@@ -65,14 +65,13 @@ junctionNum=nodeNum-tankNum;%连接点数目等于总节点数目减去水箱数目
 [errCode,linkNum]=calllib('epanetnext','ENgetcount',EN_LINKCOUNT,linkNum);%获取管段数量（包含阀门）
 %% 锁定阀门
 for i=1:linkNum
-   [errcode,linkType]=calllib('epanetnext','ENgetlinktype',i,linkType);%检查管段类型，锁定阀门
+   errCode=calllib('epanetnext','ENsetlinkvalue',i,EN_INITSTATUS,OPEN);%设置初始时所有管段都为开
+   [errCode,linkType]=calllib('epanetnext','ENgetlinktype',i,linkType);%检查管段类型，锁定阀门
    if linkType==EN_FCV
        valveIndex=i;%获取阀门索引
        [errCode,valveID]=calllib('epanetnext','ENgetlinkid',i,valveID);%获取阀门ID
-       errCode=calllib('epanetnext','ENsetlinkvalue',i,EN_INITSETTING,100);%设置初始时所有管段都为开
+       errCode=calllib('epanetnext','ENsetlinkvalue',i,EN_INITSETTING,valveInitFlow);%设置初始时所有管段都为开
 %        [errCode,from,to]=calllib('epanetnext','ENgetlinknodes',i,from,to);%获取管的起始位置，确定具体管段
-   else
-       errCode=calllib('epanetnext','ENsetlinkvalue',i,EN_INITSETTING,OPEN);%设置初始时所有管段都为开
    end
 %    [errCode,linkID]=calllib('epanetnext','ENgetlinkid',i,linkID);  %获得管道id
 %    linkNameStr=num2str(linkID);
@@ -86,23 +85,14 @@ for i=1:linkNum
 %    position(4,i)=length;
 %    position(5,i)=status;
 end
-
+%% 执行水力模拟
 errCode= calllib('epanetnext','ENopenH');%打开水力分析系统
-errCode=calllib('epanetnext','ENinitH',0);%初始化，1是保存水力结果到水力文件
-
-%% 测试代码
-%测试控制阀门开关
-% errCode=calllib('epanetnext','ENsetlinkvalue',valveIndex,EN_STATUS,CLOSED);%关闭阀门
-% [errCode,status]=calllib('epanetnext','ENgetlinkvalue',valveIndex,EN_STATUS,status);%获取管的开闭状态
-% errCode=calllib('epanetnext','ENsetlinkvalue',valveIndex,EN_STATUS,OPEN);%打开阀门
-%测试控制管段流量
-
-%测试代码结束
-%% 
+errCode=calllib('epanetnext','ENinitH',1);%初始化，1是保存水力结果到水力文件
 j=1;
 while(tStep && ~errCode)
    [errCode,time]=calllib('epanetnext','ENrunH',time);%执行time时刻的水力模拟
-   errCode=calllib('epanetnext','ENsetlinkvalue',valveIndex,EN_SETTING,100);%检测阀门的实际状态%    [errCode,flow]=calllib('epanetnext','ENgetlinkvalue',valveIndex,EN_FLOW,flow);%检测管段中的流量
+%    errCode=calllib('epanetnext','ENsetlinkvalue',valveIndex,EN_SETTING,100);%检测阀门的实际状态
+   %    [errCode,flow]=calllib('epanetnext','ENgetlinkvalue',valveIndex,EN_FLOW,flow);%检测管段中的流量
  %%测试代码
 %    linkType=0;]=calllib('epanetnext','ENgetlinktype',valveIndex,linkType);%获取管道类型，判断是否是阀门,6为FCV流量控制阀
 %    [errCode,status]=
@@ -113,10 +103,12 @@ while(tStep && ~errCode)
 %     errCode=calllib('epanetnext','ENsetcontrol',1,EN_TIMER,valveIndex,100,0,controlTime);%设置阀门的初始状态流量设为100LPS
    for i=1:junctionNum
       [errCode,pressure]=calllib('epanetnext','ENgetnodevalue',i,EN_PRESSURE,pressure); 
-      pressureValue(i,j)=pressure;
+      pressureValue(i,j)=roundn(pressure,-4);
    end
+  
+   [errCode,flow]=calllib('epanetnext','ENgetlinkvalue',valveIndex,EN_FLOW,flow);%检测管段中的流量
+   valveFlow(1,j)=roundn(flow,-2);
    j=j+1;
-   
 %    %调用控制语句
 %    if j==14
 %        errCode=calllib('epanetnext','ENsetcontrol',rem(j,divisor),EN_TIMER,valveIndex,60,0,controlTime);
@@ -151,11 +143,18 @@ errCode=calllib('epanetnext','ENcloseH');%关闭水力分析系统
 errCode=calllib('epanetnext','ENclose');%关闭toolkit系统
 unloadlibrary('epanetnext');
 
-% plot(pressureValue(1,:),'g');
+subplot(2,2,1);
+plot(pressureValue(1,:),'g');
 % hold on;
-% plot(pressureValue(2,:),'b');
+subplot(2,2,2);
+
+plot(pressureValue(4,:),'b');
 % hold on;
-% plot(pressureValue(3,:));
+subplot(2,2,3);
+
+plot(pressureValue(5,:));
 % hold on;
-% plot(pressureValue(4,:),'r');
+subplot(2,2,4);
+
+plot(pressureValue(6,:),'r');
 

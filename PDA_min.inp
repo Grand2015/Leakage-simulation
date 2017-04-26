@@ -65,10 +65,19 @@ LINK 3 40 AT TIME 0.36
 LINK 3 20 AT TIME 0.38
 ;24min阀门流量为0LPS
 LINK 3 0 AT TIME 0.4
-
+;25-30min阀门流量都为0
+;LINK 3 0 AT TIME 0.42
+;LINK 3 0 AT TIME 0.43
+;LINK 3 0 AT TIME 0.45
+;LINK 3 0 AT TIME 0.47
+;LINK 3 0 AT TIME 0.48
+;LINK 3 0 AT TIME 0.5
 
 [RULES]
-
+RULE 1
+IF SYSTEM CLOCKTIME >= 0.42 AM
+AND SYSTEM CLOCKTIME <= 0.5 AM
+THEN VALVE 3 SETTING IS 0 
 
 [ENERGY]
  Global Efficiency  	75
@@ -127,7 +136,7 @@ LINK 3 0 AT TIME 0.4
  Specific Gravity   	1
  Viscosity          	1
  Trials             	40
- Accuracy           	0.001
+ Accuracy           	0.01
  CHECKFREQ          	2
  MAXCHECK           	10
  DAMPLIMIT          	0
