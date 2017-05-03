@@ -1,0 +1,25 @@
+[COORDINATES]
+;Node            	X-Coord         	Y-Coord
+ 1               	1546.21         	6481.04         
+ 2               	2837.68         	6481.04         
+ 3               	3951.42         	6469.19         
+ 4               	5148.10         	6469.19         
+ 5               	6356.64         	6457.35         
+ 6               	7707.35         	6445.50         
+ 7               	9117.30         	6481.04         
+ 8               	10254.74        	6421.80         
+ 9               	9164.69         	5236.97         
+ 10              	468.01          	7582.94         
+
+[VERTICES]
+;Link            	X-Coord         	Y-Coord
+
+[LABELS]
+;X-Coord           Y-Coord          Label & Anchor Node
+
+[BACKDROP]
+ DIMENSIONS     	0.00            	0.00            	10000.00        	10000.00        
+ UNITS          	None
+ FILE           	
+ OFFSET         	0.00            	0.00            
+

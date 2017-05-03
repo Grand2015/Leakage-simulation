@@ -44,8 +44,8 @@ valveIndex=0;
 valveInitFlow=80;
 % inputFile='leakageSimulation.inp';
 % outputFile='leakageSimulation.rpt';
-inputFile='PDA_min.inp';
-outputFile='PDA_min.rpt';
+inputFile='PDA_min_DN600.inp';
+outputFile='PDA_min_DN600.rpt';
 %% 执行水力分析
 errCode=loadlibrary('epanetnext.dll','epanetnext.h');%用loadlibrary函数， 根据epanetnext.h中的函数定义，加载epanetnext.dll
 libfunctions epanetnext -full%查看epanetnext.dll支持的函数接口
@@ -143,18 +143,21 @@ errCode=calllib('epanetnext','ENcloseH');%关闭水力分析系统
 errCode=calllib('epanetnext','ENclose');%关闭toolkit系统
 unloadlibrary('epanetnext');
 
-subplot(2,2,1);
-plot(pressureValue(1,:),'g');
-% hold on;
-subplot(2,2,2);
-
-plot(pressureValue(4,:),'b');
-% hold on;
-subplot(2,2,3);
-
-plot(pressureValue(5,:));
-% hold on;
-subplot(2,2,4);
-
-plot(pressureValue(6,:),'r');
-
+subplot(1,2,1);
+plot(pressureValue(1,:),'r');
+hold on;
+plot(pressureValue(2,:),'g');
+hold on;
+plot(pressureValue(3,:),'b');
+hold on;
+plot(pressureValue(4,:));
+legend('节点1','节点2','节点3','节点4');
+xlabel('模拟时间/min');
+ylabel('节点压力/m');
+title('未发生漏损事件时，节点1,2,3,4的时域压力值');
+subplot(1,2,2);
+plot(pressureValue(7,:));
+xlabel('模拟时间/min');
+ylabel('节点压力/m');
+title('未发生漏损事件时，节点7的时域压力值');
+% text(2.5,6,'可任意放');
