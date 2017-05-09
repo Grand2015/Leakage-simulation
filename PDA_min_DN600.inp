@@ -9,40 +9,40 @@ PDA_min
 
 [JUNCTIONS]
 ;ID              	Elev        	Demand      	Pattern         
- 1               	0           	0           	                	;
- 2               	0           	0           	                	;
- 3               	0           	0           	                	;
- 4               	0           	0           	                	;
- 5               	0           	0           	                	;
- 6               	0           	0           	                	;
- 7               	0           	0           	                	;
- 8               	0           	0           	                	;
- 9               	0           	0           	                	;
+ J1              	0           	0           	                	;
+ J2              	0           	0           	                	;
+ J3              	0           	0           	                	;
+ J4              	0           	0           	                	;
+ J5              	0           	0           	                	;
+ J6              	0           	0           	                	;
+ J7              	0           	0           	                	;
+ J8              	0           	0           	                	;
+ J9              	0           	0           	                	;
 
 [RESERVOIRS]
 ;ID              	Head        	Pattern         
- 10              	100         	                	;
+ R1              	100         	                	;
 
 [TANKS]
 ;ID              	Elevation   	InitLevel   	MinLevel    	MaxLevel    	Diameter    	MinVol      	VolCurve
 
 [PIPES]
 ;ID              	Node1           	Node2           	Length      	Diameter    	Roughness   	MinorLoss   	Status
- 1               	10              	1               	30          	600         	100         	0           	Open  	;
- 2               	1               	2               	30          	600         	100         	0           	Open  	;
- 3               	2               	3               	30          	600         	100         	0           	Open  	;
- 4               	3               	4               	30          	600         	100         	0           	Open  	;
- 5               	4               	5               	30          	600         	100         	0           	Open  	;
- 7               	6               	7               	30          	600         	100         	0           	Open  	;
- 8               	7               	8               	30          	600         	100         	0           	Open  	;
- 9               	7               	9               	30          	600         	100         	0           	Open  	;
+ P1              	R1              	J1              	30          	600         	100         	0           	Open  	;
+ P2              	J1              	J2              	30          	600         	100         	0           	Open  	;
+ P3              	J2              	J3              	30          	600         	100         	0           	Open  	;
+ P4              	J3              	J4              	30          	600         	100         	0           	Open  	;
+ P5              	J4              	J5              	30          	600         	100         	0           	Open  	;
+ P6              	J6              	J7              	30          	600         	100         	0           	Open  	;
+ P7              	J7              	J8              	30          	600         	100         	0           	Open  	;
+ P8              	J7              	J9              	30          	600         	100         	0           	Open  	;
 
 [PUMPS]
 ;ID              	Node1           	Node2           	Parameters
 
 [VALVES]
 ;ID              	Node1           	Node2           	Diameter    	Type	Setting     	MinorLoss   
- 6               	5               	6               	600         	FCV 	792         	0           	;
+ V1              	J5              	J6              	600         	FCV 	792         	0           	;
 
 [TAGS]
 
@@ -65,15 +65,15 @@ PDA_min
 
 [CONTROLS]
 ;阀门初始设置为792LPS
-LINK 6 792 AT TIME 0
+LINK V1 792 AT TIME 0
 ;21min阀门流量为60LPS
-LINK 6 594 AT TIME 0.35
+LINK V1 594 AT TIME 0.35
 ;22min阀门流量为40LPS
-LINK 6 396 AT TIME 0.36
+LINK V1 396 AT TIME 0.36
 ;23min阀门流量为20LPS
-LINK 6 198 AT TIME 0.38
+LINK V1 198 AT TIME 0.38
 ;24min阀门流量为0LPS
-LINK 6 0 AT TIME 0.4
+LINK V1 0 AT TIME 0.4
 
 
 
@@ -81,7 +81,7 @@ LINK 6 0 AT TIME 0.4
 RULE 1
 IF SYSTEM CLOCKTIME >= 0.42 AM
 ;AND SYSTEM CLOCKTIME <= 0.5 AM
-THEN VALVE 6 SETTING IS 0 
+THEN VALVE V1 SETTING IS 0 
 
 
 [ENERGY]
@@ -91,10 +91,10 @@ THEN VALVE 6 SETTING IS 0
 
 [EMITTERS]
 ;Junction        	Coefficient
- 2               	0
- 7               	111.80339887498948482045868343656
- 8               	55.901699437494742410229341718282
- 9               	111.80339887498948482045868343656
+ J2              	0.05
+ J7              	111.80339887498948482045868343656
+ J8              	55.901699437494742410229341718282
+ J9              	111.80339887498948482045868343656
 
 [QUALITY]
 ;Node            	InitQual
@@ -154,16 +154,16 @@ THEN VALVE 6 SETTING IS 0
 
 [COORDINATES]
 ;Node            	X-Coord         	Y-Coord
- 1               	1546.21         	6481.04         
- 2               	2837.68         	6481.04         
- 3               	3951.42         	6469.19         
- 4               	5148.10         	6469.19         
- 5               	6356.64         	6457.35         
- 6               	7707.35         	6445.50         
- 7               	9117.30         	6481.04         
- 8               	10254.74        	6421.80         
- 9               	9164.69         	5236.97         
- 10              	468.01          	7582.94         
+ J1              	1546.21         	6481.04         
+ J2              	2837.68         	6481.04         
+ J3              	3951.42         	6469.19         
+ J4              	5148.10         	6469.19         
+ J5              	6356.64         	6457.35         
+ J6              	7707.35         	6445.50         
+ J7              	9117.30         	6481.04         
+ J8              	10254.74        	6421.80         
+ J9              	9164.69         	5236.97         
+ R1              	468.01          	7582.94         
 
 [VERTICES]
 ;Link            	X-Coord         	Y-Coord

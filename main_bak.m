@@ -1,4 +1,4 @@
-%% 单管漏损检测（2017.5.3）
+%% 单管漏损检测（2017.5.9）
 % 2号节点扩散器系数0.05，漏损量0.5LPS
 %管段的粗糙系数为100，管径DN600，管长100m
 
@@ -21,18 +21,18 @@ EN_FLOW=8;
 EN_PRESSURE=11;EN_STATUS=11;
 EN_SETTING=12;
 pressure=0;flow=0;flowChange=0;
-divisor=12;%用于取余数的被除数
-controlTime=60;%控制动作的时间（单位：s）
+% divisor=12;%用于取余数的被除数
+% controlTime=60;%控制动作的时间（单位：s）
 % position=[ ];
 nodeNum=0;tankNum=0;linkNum=0;
 % length=0;
 time=0;%初始化工况时间（单位：s）
 % processTime=0;
-valveCloseTime= 0.02;%阀门关闭时间
+% valveCloseTime= 0.02;%阀门关闭时间
 tStep=1;
 % tStep=0.004;%初始化水力分析的步数，可以是任意非零值（单位：s）
-sampleNum=time/tStep;%采样次数
-sampleNumConst=sampleNum;
+% sampleNum=time/tStep;%采样次数
+% sampleNumConst=sampleNum;
 % from=0;to=0;%管段的起始位置
 % linkNameStr='';
 % linkIndex=0;
@@ -41,7 +41,7 @@ linkID='';
 linkType=0;
 valveID='';
 valveIndex=0;
-valveInitFlow=80;
+valveInitFlow=792;
 % inputFile='leakageSimulation.inp';
 % outputFile='leakageSimulation.rpt';
 inputFile='PDA_min_DN600.inp';
@@ -146,16 +146,18 @@ unloadlibrary('epanetnext');
 subplot(1,2,1);
 plot(pressureValue(1,:),'r');
 hold on;
-plot(pressureValue(4,:),'b');
+plot(pressureValue(2,:),'g');
 hold on;
-plot(pressureValue(5,:));
-legend('节点1','节点4','节点5');
-xlabel('模拟时间/s');
+plot(pressureValue(3,:),'b');
+hold on;
+plot(pressureValue(4,:));
+legend('节点1','节点2','节点3','节点4');
+xlabel('模拟时间/min');
 ylabel('节点压力/m');
-title('未发生漏损事件时，节点1，4，5的时域压力值');
+title('未发生漏损事件时，节点1,2,3,4的时域压力值');
 subplot(1,2,2);
 plot(pressureValue(7,:));
-xlabel('模拟时间/s');
+xlabel('模拟时间/min');
 ylabel('节点压力/m');
 title('未发生漏损事件时，节点7的时域压力值');
 % text(2.5,6,'可任意放');
