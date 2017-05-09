@@ -21,21 +21,9 @@ EN_FLOW=8;
 EN_PRESSURE=11;EN_STATUS=11;
 EN_SETTING=12;
 pressure=0;flow=0;flowChange=0;
-% divisor=12;%用于取余数的被除数
-% controlTime=60;%控制动作的时间（单位：s）
-% position=[ ];
 nodeNum=0;tankNum=0;linkNum=0;
-% length=0;
 time=0;%初始化工况时间（单位：s）
-% processTime=0;
-% valveCloseTime= 0.02;%阀门关闭时间
 tStep=1;
-% tStep=0.004;%初始化水力分析的步数，可以是任意非零值（单位：s）
-% sampleNum=time/tStep;%采样次数
-% sampleNumConst=sampleNum;
-% from=0;to=0;%管段的起始位置
-% linkNameStr='';
-% linkIndex=0;
 status=0;
 linkID='';
 linkType=0;
@@ -71,19 +59,7 @@ for i=1:linkNum
        valveIndex=i;%获取阀门索引
        [errCode,valveID]=calllib('epanetnext','ENgetlinkid',i,valveID);%获取阀门ID
        errCode=calllib('epanetnext','ENsetlinkvalue',i,EN_INITSETTING,valveInitFlow);%设置初始时所有管段都为开
-%        [errCode,from,to]=calllib('epanetnext','ENgetlinknodes',i,from,to);%获取管的起始位置，确定具体管段
    end
-%    [errCode,linkID]=calllib('epanetnext','ENgetlinkid',i,linkID);  %获得管道id
-%    linkNameStr=num2str(linkID);
-%    [errcode,linkNameStr,linkIndex]=calllib('epanetnext','ENgetlinkindex',linkNameStr,linkIndex);  %获得管道索引
-%    [errCode,from,to]=calllib('epanetnext','ENgetlinknodes',linkIndex,from,to);%获取管的起始位置，确定具体管段
-%    [errCode,length]=calllib('epanetnext','ENgetlinkvalue',linkIndex,EN_LENGTH,length);%获取管的长度
-%    [errCode,status]=calllib('epanetnext','ENgetlinkvalue',linkIndex,EN_STATUS,status);%获取管的开闭状态
-%    position(1,i)=linkIndex;
-%    position(2,i)=from;
-%    position(3,i)=to;
-%    position(4,i)=length;
-%    position(5,i)=status;
 end
 %% 执行水力模拟
 errCode= calllib('epanetnext','ENopenH');%打开水力分析系统
@@ -104,25 +80,37 @@ errCode=calllib('epanetnext','ENcloseH');%关闭水力分析系统
 errCode=calllib('epanetnext','ENclose');%关闭toolkit系统
 unloadlibrary('epanetnext');
 
-% y=fft(valveFlow(1,:));
-% plot(y);
+for i=1:33
+    data(1,i)=pressureValue(2,i);
+end
 
-Y=fft(valveFlow(1,:));
+Fs=1000;
+subplot(3,1,1);
+t=0:1/Fs:1;
+plot(1000*t(1:33),data(1:33));
+xlabel('time(mm)');
+title('一元时间序列直观图');
 
-Pyy2=Y.*conj(Y)/33;
+Y=fft(data,512);
+Pyy2=Y.*conj(Y)/512;
+f2=1000*(0:256)/512;
+subplot(3,1,2);
+plot(f2,Pyy2(1:257));
+title('离散数据的傅立叶频谱图');
+xlabel('频率（Hz）');
 
-f2=1000*(0:18)/33;
-
-
-plot(f2,Pyy2(1:19));
-
-title('离散数据的傅立叶频谱图')
-
-xlabel('频率（Hz）')
-
-
-
-
+Fs=1000;
+NFFT=1024;
+Cx=xcorr(data,'unbiased');
+Cxk=fft(Cx,NFFT);
+Pxx=abs(Cxk);
+t=0:round(NFFT/2-1);
+k=t*Fs/NFFT;
+P=10*log10(Pxx(t+1));
+subplot(3,1,3);
+plot(k,P);
+title('谱估计的自相关函数法');
+xlabel('频率（Hz）');
 % subplot(1,2,1);
 % plot(pressureValue(1,:),'r');
 % hold on;
