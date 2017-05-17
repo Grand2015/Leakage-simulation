@@ -1,11 +1,10 @@
 [TITLE]
 PDA_min
 实验时长位30分钟，在21-24min中间，FCV阀门做了关闭动作。
-节点临界压力80m
+节点临界压力**m
 节点      需水量
 7            1000
-8              500
-9            1000
+
 
 [JUNCTIONS]
 ;ID              	Elev        	Demand      	Pattern         
@@ -16,8 +15,6 @@ PDA_min
  J5              	0           	0           	                	;
  J6              	0           	0           	                	;
  J7              	0           	0           	                	;
- J8              	0           	0           	                	;
- J9              	0           	0           	                	;
 
 [RESERVOIRS]
 ;ID              	Head        	Pattern         
@@ -34,8 +31,6 @@ PDA_min
  P4              	J3              	J4              	30          	600         	100         	0           	Open  	;
  P5              	J4              	J5              	30          	600         	100         	0           	Open  	;
  P6              	J6              	J7              	30          	600         	100         	0           	Open  	;
- P7              	J7              	J8              	30          	600         	100         	0           	Open  	;
- P8              	J7              	J9              	30          	600         	100         	0           	Open  	;
 
 [PUMPS]
 ;ID              	Node1           	Node2           	Parameters
@@ -66,12 +61,12 @@ PDA_min
 [CONTROLS]
 ;阀门初始设置为792LPS
 LINK V1 792 AT TIME 0
-;21min阀门流量为60LPS
+;21min阀门流量为594LPS
 LINK V1 594 AT TIME 0.35
-;22min阀门流量为40LPS
-LINK V1 396 AT TIME 0.36
-;23min阀门流量为20LPS
-LINK V1 198 AT TIME 0.38
+;22min阀门流量为396LPS
+LINK V1 396 AT TIME 0.3667
+;23min阀门流量为198LPS
+LINK V1 198 AT TIME 0.375
 ;24min阀门流量为0LPS
 LINK V1 0 AT TIME 0.4
 
@@ -91,10 +86,8 @@ THEN VALVE V1 SETTING IS 0
 
 [EMITTERS]
 ;Junction        	Coefficient
- J2              	0.05
- J7              	111.80339887498948482045868343656
- J8              	55.901699437494742410229341718282
- J9              	111.80339887498948482045868343656
+ J2              	0
+ J7              	112
 
 [QUALITY]
 ;Node            	InitQual
@@ -161,8 +154,6 @@ THEN VALVE V1 SETTING IS 0
  J5              	6356.64         	6457.35         
  J6              	7707.35         	6445.50         
  J7              	9117.30         	6481.04         
- J8              	10254.74        	6421.80         
- J9              	9164.69         	5236.97         
  R1              	468.01          	7582.94         
 
 [VERTICES]

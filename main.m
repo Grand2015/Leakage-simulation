@@ -1,5 +1,5 @@
 %% 单管漏损检测（2017.5.9）
-% 2号节点扩散器系数0.05，漏损量0.5LPS
+% 2号节点扩散器系数0.05
 %管段的粗糙系数为100，管径DN600，管长100m
 
 %【待定】
@@ -14,6 +14,7 @@ close all;
 EN_NODECOUNT=0;CLOSED=0;
 EN_TANKCOUNT=1;EN_SAVEDATA=1;EN_LENGTH=1;OPEN=1;
 EN_LINKCOUNT=2;EN_TIMER=2;
+EN_EMITTER=3;
 EN_INITSTATUS=4;
 EN_INITSETTING=5;
 EN_FCV=6;
@@ -30,6 +31,8 @@ linkType=0;
 valveID='';
 valveIndex=0;
 valveInitFlow=792;
+emitter_leakage=0;
+emitter_demand=0;
 % inputFile='leakageSimulation.inp';
 % outputFile='leakageSimulation.rpt';
 inputFile='PDA_min_DN600.inp';
@@ -61,33 +64,81 @@ for i=1:linkNum
        errCode=calllib('epanetnext','ENsetlinkvalue',i,EN_INITSETTING,valveInitFlow);%设置初始时所有管段都为开
    end
 end
+
+[errCode,emitter_leakage]=calllib('epanetnext','ENgetnodevalue',2,EN_EMITTER,emitter_leakage);
+[errCode,emitter_demand]=calllib('epanetnext','ENgetnodevalue',7,EN_EMITTER,emitter_demand);
+
 %% 执行水力模拟
 errCode= calllib('epanetnext','ENopenH');%打开水力分析系统
 errCode=calllib('epanetnext','ENinitH',1);%初始化，1是保存水力结果到水力文件
+% 无漏损情况下
 j=1;
 while(tStep && ~errCode)
    [errCode,time]=calllib('epanetnext','ENrunH',time);%执行time时刻的水力模拟
    for i=1:junctionNum
       [errCode,pressure]=calllib('epanetnext','ENgetnodevalue',i,EN_PRESSURE,pressure); 
-      pressureValue(i,j)=roundn(pressure,-4);
+      pressureValueWithoutLeakage(i,j)=roundn(pressure,-4);
    end
    [errCode,flow]=calllib('epanetnext','ENgetlinkvalue',valveIndex,EN_FLOW,flow);%检测管段中的流量
-   valveFlow(1,j)=roundn(flow,-2);
+   valveFlowWithoutLeakage(1,j)=roundn(flow,-2);
    j=j+1;
    [errCode,tStep]=calllib('epanetnext','ENnextH',tStep);
 end
+
+% 漏损情况下
+j=1;
+time=0;
+tStep=1;
+
+while(tStep && ~errCode)
+   [errCode,time]=calllib('epanetnext','ENrunH',time);%执行time时刻的水力模拟
+   for i=1:junctionNum
+      [errCode,pressure]=calllib('epanetnext','ENgetnodevalue',i,EN_PRESSURE,pressure); 
+      pressureValueWithLeakage(i,j)=roundn(pressure,-4);
+   end
+   [errCode,flow]=calllib('epanetnext','ENgetlinkvalue',valveIndex,EN_FLOW,flow);%检测管段中的流量
+   valveFlowWithLeakage(1,j)=roundn(flow,-2);
+   j=j+1;
+   [errCode,tStep]=calllib('epanetnext','ENnextH',tStep);
+end
+
 errCode=calllib('epanetnext','ENcloseH');%关闭水力分析系统
 errCode=calllib('epanetnext','ENclose');%关闭toolkit系统
 unloadlibrary('epanetnext');
 
-for i=1:33
-    data(1,i)=pressureValue(2,i);
+
+%% 漏损情况下执行水力模拟
+% errCode= calllib('epanetnext','ENopenH');%打开水力分析系统
+% errCode=calllib('epanetnext','ENinitH',1);%初始化，1是保存水力结果到水力文件
+% j=1;
+% while(tStep && ~errCode)
+%    [errCode,time]=calllib('epanetnext','ENrunH',time);%执行time时刻的水力模拟
+%    for i=1:junctionNum
+%       [errCode,pressure]=calllib('epanetnext','ENgetnodevalue',i,EN_PRESSURE,pressure); 
+%       pressureValueWithLeakage(i,j)=roundn(pressure,-4);
+%    end
+%    [errCode,flow]=calllib('epanetnext','ENgetlinkvalue',valveIndex,EN_FLOW,flow);%检测管段中的流量
+%    valveFlowWithLeakage(1,j)=roundn(flow,-2);
+%    j=j+1;
+%    [errCode,tStep]=calllib('epanetnext','ENnextH',tStep);
+% end
+% errCode=calllib('epanetnext','ENcloseH');%关闭水力分析系统
+% errCode=calllib('epanetnext','ENclose');%关闭toolkit系统
+% unloadlibrary('epanetnext');
+
+
+
+
+%% 
+for i=1:32
+    data(1,i)=valveFlow(1,i);
 end
 
+figure(1);
 Fs=1000;
 subplot(3,1,1);
 t=0:1/Fs:1;
-plot(1000*t(1:33),data(1:33));
+plot(1000*t(1:32),data(1:32));
 xlabel('time(mm)');
 title('一元时间序列直观图');
 
@@ -111,21 +162,23 @@ subplot(3,1,3);
 plot(k,P);
 title('谱估计的自相关函数法');
 xlabel('频率（Hz）');
-% subplot(1,2,1);
-% plot(pressureValue(1,:),'r');
-% hold on;
-% plot(pressureValue(2,:),'g');
-% hold on;
-% plot(pressureValue(3,:),'b');
-% hold on;
-% plot(pressureValue(4,:));
-% legend('节点1','节点2','节点3','节点4');
-% xlabel('模拟时间/min');
-% ylabel('节点压力/m');
-% title('未发生漏损事件时，节点1,2,3,4的时域压力值');
-% subplot(1,2,2);
-% plot(pressureValue(7,:));
-% xlabel('模拟时间/min');
-% ylabel('节点压力/m');
-% title('未发生漏损事件时，节点7的时域压力值');
+
+figure(2);
+subplot(1,2,1);
+plot(pressureValue(1,:),'r');
+hold on;
+plot(pressureValue(2,:),'g');
+hold on;
+plot(pressureValue(3,:),'b');
+hold on;
+plot(pressureValue(4,:));
+legend('节点1','节点2','节点3','节点4');
+xlabel('模拟时间/min');
+ylabel('节点压力/m');
+title('未发生漏损事件时，节点1,2,3,4的时域压力值');
+subplot(1,2,2);
+plot(pressureValue(7,:));
+xlabel('模拟时间/min');
+ylabel('节点压力/m');
+title('未发生漏损事件时，节点7的时域压力值');
 
