@@ -5,7 +5,6 @@ PDA_min
 节点      需水量
 7            1000
 
-
 [JUNCTIONS]
 ;ID              	Elev        	Demand      	Pattern         
  J1              	0           	0           	                	;
@@ -59,24 +58,31 @@ PDA_min
 ;ID              	X-Value     	Y-Value
 
 [CONTROLS]
+;##关闭阀门
 ;阀门初始设置为792LPS
-LINK V1 792 AT TIME 0
+;LINK V1 792 AT TIME 0
 ;21min阀门流量为594LPS
 LINK V1 594 AT TIME 0.35
 ;22min阀门流量为396LPS
 LINK V1 396 AT TIME 0.3667
 ;23min阀门流量为198LPS
-LINK V1 198 AT TIME 0.375
+LINK V1 198 AT TIME 0.3833
 ;24min阀门流量为0LPS
 LINK V1 0 AT TIME 0.4
 
-
+LINK V1 264 AT TIME 0.4167
+LINK V1 528 AT TIME 0.4333
+LINK V1 264 AT TIME 0.45
+LINK V1 0 AT TIME 0.4667
+LINK V1 264 AT TIME 0.4833
+LINK V1 0 AT TIME 0.5
 
 [RULES]
-RULE 1
-IF SYSTEM CLOCKTIME >= 0.42 AM
+;RULE 1
+;IF SYSTEM CLOCKTIME >= 0.42 AM
 ;AND SYSTEM CLOCKTIME <= 0.5 AM
-THEN VALVE V1 SETTING IS 0 
+;THEN VALVE V1 SETTING IS 0 
+
 
 
 [ENERGY]
@@ -112,7 +118,7 @@ THEN VALVE V1 SETTING IS 0
 ;Tank            	Model
 
 [TIMES]
- Duration           	0:30
+ Duration           	0:50
  Hydraulic Timestep 	0:01 
  Quality Timestep   	0:01 
  Pattern Timestep   	0:01 

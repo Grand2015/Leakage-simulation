@@ -89,7 +89,9 @@ end
 errCode=calllib('epanetnext','ENcloseH');%关闭水力分析系统
 errCode=calllib('epanetnext','ENclose');%关闭toolkit系统
 unloadlibrary('epanetnext');
-%% 漏损
+%% 漏损情况下
+
+emitterRatio=5;
 pressure=0;flow=0;flowChange=0;
 nodeNum=0;tankNum=0;linkNum=0;
 time=0;%初始化工况时间（单位：s）
@@ -135,7 +137,7 @@ for i=1:linkNum
 end
 
 [errCode,emitter_leakage]=calllib('epanetnext','ENgetnodevalue',2,EN_EMITTER,emitter_leakage);
-errCode=calllib('epanetnext','ENsetnodevalue',2,EN_EMITTER,0.05);
+errCode=calllib('epanetnext','ENsetnodevalue',2,EN_EMITTER,emitterRatio);
 
 [errCode,emitter_leakage]=calllib('epanetnext','ENgetnodevalue',2,EN_EMITTER,emitter_leakage);
 
@@ -161,7 +163,7 @@ errCode=calllib('epanetnext','ENclose');%关闭toolkit系统
 unloadlibrary('epanetnext');
 
 
-for i=1:32
+for i=1:54
     data(1,i)=pressureValueWithoutLeakage(1,i);
     dataLeakage(1,i)=pressureValueWithLeakage(1,i);
 end
@@ -170,9 +172,10 @@ end
 Fs=1000;
 subplot(3,1,1);
 t=0:1/Fs:1;
-plot(1000*t(1:32),data(1:32),'g');
+plot(1000*t(1:54),data(1:54),'g');
 hold on;
-plot(1000*t(1:32),dataLeakage(1:32),'r');
+plot(1000*t(1:54),dataLeakage(1:54),'r');
+legend('正常工况','漏损工况');
 xlabel('time(mm)');
 title('一元时间序列直观图');
 
@@ -188,6 +191,7 @@ subplot(3,1,2);
 plot(f,Pyy(1:257),'g');
 hold on;
 plot(fLeakage,PyyLeakage(1:257),'r');
+legend('正常工况','漏损工况');
 title('离散数据的傅立叶频谱图');
 xlabel('频率（Hz）');
 
@@ -209,8 +213,10 @@ subplot(3,1,3);
 plot(k,P,'g');
 hold on;
 plot(k,PLeakage,'r');
+legend('正常工况','漏损工况');
 title('谱估计的自相关函数法');
 xlabel('频率（Hz）');
+
 
 
 
